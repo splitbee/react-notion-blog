@@ -12,7 +12,6 @@ export const getAllPosts = async (): Promise<Post[]> => {
 
 export async function getStaticProps() {
   const posts = await getAllPosts();
-
   return {
     props: {
       posts,
@@ -26,7 +25,7 @@ function HomePage({ posts }: { posts: Post[] }) {
       <h1>Posts</h1>
       <div>
         {posts.map((post) => (
-          <Link href="/[slug]" as={`/${post.slug}`}>
+          <Link href="/blog/[slug]" as={`/blog/${post.slug}`}>
             <a>
               <b>{post.title}</b>
               <div className="sub">posted on {post.date}</div>

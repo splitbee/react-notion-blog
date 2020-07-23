@@ -1,6 +1,6 @@
 import { NotionRenderer, BlockMapType } from "react-notion";
 
-import { getAllPosts, Post } from "./";
+import { getAllPosts, Post } from "../";
 
 export async function getStaticProps({
   params: { slug },
@@ -28,17 +28,21 @@ export async function getStaticProps({
 const BlogPost: React.FC<{ post: Post; blocks: BlockMapType }> = ({
   post,
   blocks,
-}) => (
-  <div className="content">
-    <h1>{post.title}</h1>
-    <NotionRenderer blockMap={blocks} />
-  </div>
-);
+}) => {
+  if (!post) return null;
+
+  return (
+    <div className="content">
+      <h1>{post.title}</h1>
+      <NotionRenderer blockMap={blocks} />
+    </div>
+  );
+};
 
 export async function getStaticPaths() {
   const table = await getAllPosts();
   return {
-    paths: table.map((row) => `/${row.slug}`),
+    paths: table.map((row) => `/blog/${row.slug}`),
     fallback: true,
   };
 }
